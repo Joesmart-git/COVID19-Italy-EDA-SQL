@@ -12,6 +12,7 @@ During the height of the COVID-19 pandemic, tracking the spread across different
 By seamlessly bridging multi-grain hierarchical datasets and deriving hidden metrics via Window Functions, this analytical model empowers stakeholders to bypass high-level national noise. Officials can immediately isolate localized outbreaks, calculate exact proportional impact, and deploy targeted emergency medical resources directly to the specific "Ground Zero" provinces driving the national surges.
 
 <div align="center">
+  <img width="1815" height="326" alt="image" src="https://github.com/user-attachments/assets/ca55cd63-a912-46cf-a9c2-f60a41afa447" />
   </div>
 
 ## 🛠️ Tools & SQL Skills Demonstrated
@@ -39,6 +40,12 @@ LIMIT 3
 ```
 *Result: January, March, and July 2022 were identified as the peak surge periods.*
 
+| month | total_cases |
+| :--- | :--- |
+| 2022-01-01 | 4,730,380 |
+| 2022-07-01 | 2,443,084 |
+| 2022-03-01 | 1,832,360 |
+
 ### 2. Regional Testing Efficiency
 To evaluate localized testing efforts during the absolute peaks, I bridged the Regional and National tables using an `INNER JOIN` and dynamically filtered for the months identified in Phase 1. I engineered mathematical logic to calculate the exact percentage each region contributed to the national testing pool, implementing defensive `> 0` logic to prevent division-by-zero errors.
 ```sql
@@ -58,6 +65,15 @@ ORDER BY
   day ASC
 ;
 ```
+*Result Snapshot: Friuli Venezia Giulia led proportional testing contributions during the January 2022 peak.*
+
+| day | region_name | reg_test | nat_test | R_pct_contri |
+| :--- | :--- | :--- | :--- | :--- |
+| 2022-01-01 | Friuli Venezia Giulia | 4,551,164 | 141,268,542 | 3.2216 |
+| 2022-01-01 | Calabria | 1,678,388 | 141,268,542 | 1.1881 |
+| 2022-01-01 | Abruzzo | 3,583,600 | 141,268,542 | 2.5367 |
+| 2022-01-01 | P.A. Trento | 1,860,109 | 141,268,542 | 1.3167 |
+| 2022-01-01 | P.A. Bolzano | 3,014,323 | 141,268,542 | 2.1338 |
 
 ### 3. Data Derivation via Window Functions
 The provincial database only tracked infections as a running cumulative total. To find the true weekly spikes, I built a two-step CTE process to extract the `MAX()` cumulative cases per week, and then utilized the `LAG()` window function to dynamically subtract the previous week's total, deriving a clean week-over-week growth metric.
@@ -87,6 +103,15 @@ ORDER BY
   , week ASC
 ;
 ```
+*Result Snapshot: Successfully generated net-new weekly cases (`weekly_increase`) from static running totals.*
+
+| week | prov_name | weekly_total_cases | weekly_increase |
+| :--- | :--- | :--- | :--- |
+| 2020-02-23 | Agrigento | 0 | null |
+| 2020-03-01 | Agrigento | 1 | 1 |
+| 2020-03-08 | Agrigento | 17 | 16 |
+| 2020-03-15 | Agrigento | 36 | 19 |
+| 2020-03-22 | Agrigento | 58 | 22 |
 
 ### 4. Hierarchical Modeling & The "Ground Zero" Report
 To isolate the exact provinces causing the national surges, I engineered a robust Common Table Expression (CTE) that joined all three geographical tiers (Province, Region, National). Using a nested scalar subquery in the `WHERE` clause, the query dynamically targets the single worst day in the country's history. I utilized this unified base table to simultaneously calculate hierarchical percentage contributions (`prov_contri_to_reg` and `prov_contri_to_nat`) in a single, streamlined query execution.
@@ -139,11 +164,14 @@ LIMIT
   5
 ;
 ```
+<div align="center">
+  <img width="1815" height="326" alt="image" src="https://github.com/user-attachments/assets/ca55cd63-a912-46cf-a9c2-f60a41afa447" />
+  </div>
+
 
 ## 📂 Repository Structure
 * [📁 /01_SQL_Scripts](./01_SQL_Scripts) - Contains the raw `.sql` files for all four phases of the analysis.
 * [📁 /02_Query_Results](./02_Query_Results) - Contains exported CSVs and visual snapshots of the finalized query outputs.
-* [📁 /03_Deliverables](./03_Deliverables) - Contains the final executive summary and methodology documentation.
 
 ---
 *If you are a recruiter or hiring manager, please visit the **[Notion Case Study](https://whispering-crater-183.notion.site/Project-Operation-Ground-Zero-COVID-19-Data-Exploration-314e54702f0b808ca5e5d3b7f814443b?source=copy_link)** for a deeper dive into the business context and visual query results.*
