@@ -171,7 +171,7 @@ LIMIT
 
 ## 📂 Repository Structure
 * [📁 /01_SQL_Scripts](./01_SQL_Scripts) - Contains the raw `.sql` files for all four phases of the analysis.
-* [📁 /02_Query_Results](./02_Query_Results) - Contains exported CSVs and visual snapshots of the finalized query outputs.
+
 
 ---
 *If you are a recruiter or hiring manager, please visit the **[Notion Case Study](https://whispering-crater-183.notion.site/Project-Operation-Ground-Zero-COVID-19-Data-Exploration-314e54702f0b808ca5e5d3b7f814443b?source=copy_link)** for a deeper dive into the business context and visual query results.*
