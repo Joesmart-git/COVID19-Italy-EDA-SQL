@@ -164,9 +164,6 @@ LIMIT
   5
 ;
 ```
-<div align="center">
-  <img width="1815" height="326" alt="image" src="https://github.com/user-attachments/assets/ca55cd63-a912-46cf-a9c2-f60a41afa447" />
-  </div>
 
 
 ## 📂 Repository Structure
